@@ -4,7 +4,10 @@ name: "Code Scanning - Action"
 
 # Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the develop branch
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
   schedule:
     - cron: '*/5 * * * *'
 
@@ -13,7 +16,15 @@ jobs:
   CodeQL-Build:
     # CodeQL runs on ubuntu-latest, windows-latest, and macos-latest
     runs-on: ubuntu-latest
+    
+    permissions:
+      # required for all workflows
+      security-events: write
 
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -27,8 +38,8 @@ jobs:
 
       # Autobuild attempts to build any compiled languages (C/C++, C#, or Java).
       # If this step fails, then you should remove it and run the build manually (see below).
-      # - name: Autobuild
-      #  uses: github/codeql-action/autobuild@v1
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v1
 
       # ℹ️ Command-line programs to run using the OS shell.
       # 📚 https://git.io/JvXDl
