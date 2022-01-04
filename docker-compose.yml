@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  uuid:
+    container_name: uuid
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: on-failure
+  test:
+    container_name: uuidtest
+    build:
+      context: .
+      dockerfile: ./DockerfileTest
